@@ -26,7 +26,7 @@
     padding: 0.2em 1.5em 0em;
     position: absolute;
     white-space: nowrap;
-    top: 2px;
+    top: 0;
     transform-origin: bottom left;
     background-color: #63A9FA;
     color: white;
