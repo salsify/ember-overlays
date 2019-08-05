@@ -71,13 +71,13 @@ test('it renders with user content taller than underlying mark', function(assert
   assert.equal(this.$('.my-overlay .target').height(), 300);
 });
 
-test('it renders oversized', function(assert) {
+test('it renders larger overlays', function(assert) {
   this.render(hbs`
     {{#mark-overlay id="my-mark-id"}}
       <div class="test-target" style="width: 100px; height: 200px"></div>
     {{/mark-overlay}}
     {{#overlay-marks as |mark|}}
-      {{create-overlay at=mark highlighted=true oversized=true label="my overlay" class="my-overlay"}}
+      {{create-overlay at=mark highlighted=true expandSizeBy=40 label="my overlay" class="my-overlay"}}
     {{/overlay-marks}}
   `);
   assert.equal(this.$('label:contains(my overlay)').length, 1);

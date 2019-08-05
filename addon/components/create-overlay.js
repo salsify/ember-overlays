@@ -38,16 +38,16 @@ export default Component.extend({
     }
   },
 
-  _translation(targetRect, ownRect, currentTransform, oversized) {
-    return `translateX(${targetRect.left - ownRect.left + currentTransform.tx - (oversized ? 20 : 5)}px) translateY(${targetRect.top - ownRect.top + currentTransform.ty - (oversized ? 20 : 5)}px)`;
+  _translation(targetRect, ownRect, currentTransform, expandSizeBy) {
+    return `translateX(${targetRect.left - ownRect.left + currentTransform.tx - (expandSizeBy ? expandSizeBy / 2 : 5)}px) translateY(${targetRect.top - ownRect.top + currentTransform.ty - (expandSizeBy ? expandSizeBy / 2 : 5)}px)`;
   },
 
-  _matchWidth($elt, targetRect, ownRect, oversized) {
-    return `${$elt.outerWidth() + targetRect.right - targetRect.left - ownRect.right + ownRect.left + (oversized ? 40 : 10)}px`;
+  _matchWidth($elt, targetRect, ownRect, expandSizeBy) {
+    return `${$elt.outerWidth() + targetRect.right - targetRect.left - ownRect.right + ownRect.left + (expandSizeBy ? expandSizeBy : 10)}px`;
   },
 
-  _matchHeight($elt, targetRect, ownRect, oversized) {
-    return `${$elt.outerHeight() + targetRect.bottom - targetRect.top - ownRect.bottom + ownRect.top + (oversized ? 40 : 10)}px`;
+  _matchHeight($elt, targetRect, ownRect, expandSizeBy) {
+    return `${$elt.outerHeight() + targetRect.bottom - targetRect.top - ownRect.bottom + ownRect.top + (expandSizeBy ? expandSizeBy : 10)}px`;
   },
 
   _track: task(function * () {
@@ -64,16 +64,16 @@ export default Component.extend({
         // position ourselves over the target
         let ownRect = $ownTarget[0].getBoundingClientRect();
         let t = ownTransform($elt[0]);
-        const oversized = this.get('oversized');
+        const expandSizeBy = this.get('expandSizeBy');
 
         $elt.css({
           display: 'initial',
-          transform: `${this._translation(targetRect, ownRect, t, oversized)} scale(${this.get('fieldScale')})`
+          transform: `${this._translation(targetRect, ownRect, t, expandSizeBy)} scale(${this.get('fieldScale')})`
         });
 
         $ownTarget.css({
-          width: this._matchWidth($ownTarget, targetRect, ownRect, oversized),
-          minHeight: this._matchHeight($ownTarget, targetRect, ownRect, oversized),
+          width: this._matchWidth($ownTarget, targetRect, ownRect, expandSizeBy),
+          minHeight: this._matchHeight($ownTarget, targetRect, ownRect, expandSizeBy),
         });
 
         $elt.find('> label').css({
